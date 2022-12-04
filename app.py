@@ -3,7 +3,7 @@ import pandas as pd
 import itertools
 
 df = pd.read_csv("sample.csv")
-calendarr = pd.read_csv("calendar.csv")
+calendarrr = pd.read_csv("calendar.csv")
 
 
 #%%
