@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Caner/Documents/GitHub/Kaggle-M5-Forecasting-Walmart/src/mlruns/0/ad50c1b408df422692cb18a621dc077c/artifacts
+end_time: 1670950091985
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: ad50c1b408df422692cb18a621dc077c
+run_name: week_1
+run_uuid: ad50c1b408df422692cb18a621dc077c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1670947569316
+status: 3
+tags: []
+user_id: Caner

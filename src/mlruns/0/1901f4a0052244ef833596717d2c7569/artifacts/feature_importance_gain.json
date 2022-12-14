@@ -1,0 +1,17 @@
+{
+  "item_store_window_7_lag_14_mean": 2184548.3007507324,
+  "item_store_window_7_lag_14_std": 49546.87705993652,
+  "item_store_window_15_lag_14_mean": 7705178.122573853,
+  "item_store_window_15_lag_14_std": 144821.7766342163,
+  "item_store_window_30_lag_14_mean": 42971188.97117615,
+  "item_store_window_30_lag_14_std": 4831484.118331909,
+  "item_store_window_90_lag_14_mean": 1360864.642288208,
+  "item_store_window_90_lag_14_std": 57697.21987533569,
+  "item_store_window_180_lag_14_mean": 1409972.4305648804,
+  "item_store_window_180_lag_14_std": 6615415.030342102,
+  "week_of_year": 567287.4965820312,
+  "month": 45063.15769958496,
+  "day_of_week": 753912.2802886963,
+  "day_of_month": 256397.17835617065,
+  "year": 443232.32830810547
+}

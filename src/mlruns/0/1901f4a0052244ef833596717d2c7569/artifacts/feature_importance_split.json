@@ -1,0 +1,17 @@
+{
+  "item_store_window_7_lag_14_mean": 161,
+  "item_store_window_7_lag_14_std": 34,
+  "item_store_window_15_lag_14_mean": 137,
+  "item_store_window_15_lag_14_std": 24,
+  "item_store_window_30_lag_14_mean": 175,
+  "item_store_window_30_lag_14_std": 36,
+  "item_store_window_90_lag_14_mean": 225,
+  "item_store_window_90_lag_14_std": 66,
+  "item_store_window_180_lag_14_mean": 335,
+  "item_store_window_180_lag_14_std": 290,
+  "week_of_year": 531,
+  "month": 76,
+  "day_of_week": 355,
+  "day_of_month": 262,
+  "year": 293
+}
