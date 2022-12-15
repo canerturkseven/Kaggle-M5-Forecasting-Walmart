@@ -1,0 +1,12 @@
+0:
+  forecast_end: '2016-04-30'
+  forecast_start: '2016-04-03'
+  rmse: 2.0948652146272444
+  train_end: '2016-04-02'
+  train_start: '2011-01-29'
+1:
+  forecast_end: '2016-04-02'
+  forecast_start: '2016-03-06'
+  rmse: 2.203117725081241
+  train_end: '2016-03-05'
+  train_start: '2011-01-29'

@@ -1,34 +1,38 @@
 #%%
 import streamlit as st
+import mlflow
 import pandas as pd
 import plotly.express as px
-from sklearn.metrics import mean_absolute_percentage_error
+from sklearn.metrics import mean_squared_error
 
 st.set_page_config(layout="wide")
 
 
+def select_mlflow_run():
+    col1, _ = st.columns([0.2, 0.8])
+    with col1:
+        run_id = st.selectbox(
+            "Select MLflow run to analyse",
+            mlflow.search_runs()["run_id"].tolist(),
+        )
+    return run_id
+
+
 @st.cache
-def load_data():
+def load_data(run_id):
+    artifact_uri = mlflow.get_run(run_id).info.artifact_uri
+
     actual = pd.read_csv("../input/actual_ca_1.csv")
-    calendar = pd.read_csv("../input/calendar.csv")
-    prediction = pd.read_csv("../output/prediction/prediction.csv")
-    calendar["date"] = pd.to_datetime(calendar["date"], format="%Y-%m-%d")
-    prediction["date"] = pd.to_datetime(prediction["date"], format="%Y-%m-%d")
-    prediction["cycle"] = prediction["cycle"].astype(str)
-    prediction = prediction.pivot_table(
-        index=[
-            "id",
-            "date",
-            "item_id",
-            "store_id",
-            "dept_id",
-            "cat_id",
-            "state_id",
-        ],
-        columns="cycle",
-        values="prediction",
+    calendar = pd.read_csv("../input/calendar.csv", parse_dates=["date"])
+    cv_forecast = pd.read_csv(f"{artifact_uri}/cv/forecast.csv", parse_dates=["date"])
+
+    cv_forecast = cv_forecast.pivot_table(
+        index=["id", "date"],
+        columns="cv",
+        values="forecast",
     )
-    prediction = prediction.rename_axis(None, axis=1).add_prefix("cycle_").reset_index()
+    cv_forecast = cv_forecast.rename_axis(None, axis=1).add_prefix("cv_").reset_index()
+
     return (
         actual.melt(
             id_vars=["id", "item_id", "store_id", "dept_id", "cat_id", "state_id"],
@@ -36,20 +40,14 @@ def load_data():
             value_name="sales",
         )
         .merge(calendar[["d", "date"]], on="d", how="left")
-        .merge(
-            prediction,
-            on=[
-                "id",
-                "date",
-                "item_id",
-                "store_id",
-                "dept_id",
-                "cat_id",
-                "state_id",
-            ],
-            how="outer",
-        )
+        .merge(cv_forecast, on=["id", "date"], how="outer")
     )
+
+
+@st.cache
+def load_metric(run_id):
+    artifact_uri = mlflow.get_run(run_id).info.artifact_uri
+    return pd.read_csv(f"{artifact_uri}/cv/metric.csv")
 
 
 def load_filters(df):
@@ -87,58 +85,64 @@ def load_filters(df):
     return df
 
 
-def load_prediction(df):
+def prediction_graph(df):
     prediction = df.groupby("date").sum(min_count=1)
-    fig_prediction = px.line(
-        prediction,
-        markers=True,
-        height=650,
-    )
+    fig_prediction = px.line(prediction, markers=True, height=580, template="plotly")
     fig_prediction.update_layout(
-        margin=dict(l=0, r=40, t=30, b=0),
-        legend=dict(orientation="h", yanchor="top", y=1.05, xanchor="left", x=0),
-        font={"size": 15},
-    )
-    fig_prediction.update_traces(
-        line=dict(width=2),
+        margin=dict(l=0, r=40, t=0, b=0),
+        legend=dict(
+            # orientation="h",
+            yanchor="top",
+            y=0.99,
+            xanchor="left",
+            x=0.01,
+        ),
+        font={"size": 13.5},
     )
     st.plotly_chart(fig_prediction, use_container_width=True)
 
 
-def load_accuracy(df):
-    accuracy = pd.Series()
-    for col in df.filter(like="cycle"):
-        df_cycle = df.dropna(subset=["sales", col])
-        accuracy[col] = 1 - mean_absolute_percentage_error(
-            df_cycle["sales"],
-            df_cycle[col],
-            sample_weight=df_cycle["sales"],
+def metric_graph(df):
+    metric = pd.Series()
+    for col in df.filter(like="cv"):
+        df_cv = df.dropna(subset=["sales", col])
+        metric[col] = mean_squared_error(
+            df_cv["sales"],
+            df_cv[col],
+            squared=False,
         )
-    fig_accuracy = px.bar(
-        accuracy.round(3),
+    metric["mean"] = metric.mean()
+    fig_metric = px.bar(
+        metric.round(3),
+        template="plotly",
         text_auto=True,
         orientation="h",
+        height=400,
+        width=2000,
     )
-    fig_accuracy.update_layout(
-        margin=dict(l=0, r=0, t=30, b=0),
-        font={"size": 15},
+    fig_metric.update_layout(
+        margin=dict(l=0, r=0, t=0, b=0),
+        font={"size": 14},
         yaxis_title=None,
-        xaxis_range=[0, 1],
+        xaxis_title="rmse",
         showlegend=False,
     )
-    st.plotly_chart(fig_accuracy, use_container_width=True)
+    st.plotly_chart(fig_metric, use_container_width=True)
 
 
 def load_charts(df):
     col1, col2 = st.columns([0.8, 0.2])
     with col1:
-        load_prediction(df)
+        st.subheader("Forecast")
+        prediction_graph(df)
     with col2:
-        load_accuracy(df)
+        st.subheader("Metric")
+        metric_graph(df)
 
 
 def main():
-    df = load_data()
+    run_id = select_mlflow_run()
+    df = load_data(run_id)
     df = load_filters(df)
     load_charts(df)
 

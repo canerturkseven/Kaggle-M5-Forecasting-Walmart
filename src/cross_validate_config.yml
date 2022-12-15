@@ -1,0 +1,90 @@
+data:
+  id_col: id
+  target_col: sales
+  date_col : date
+  date_frequency : days
+
+hyperparameters:
+  objective: tweedie
+
+cv: 
+  splits: 2
+  test_size: 28
+
+models:  
+  week_1:
+    forecast_horizon: [1,2,3,4,5,6,7]
+    feature_cols:
+      - item_store_window_7_lag_7_mean
+      - item_store_window_7_lag_7_std
+      - item_store_window_15_lag_7_mean
+      - item_store_window_15_lag_7_std
+      - item_store_window_30_lag_7_mean
+      - item_store_window_30_lag_7_std
+      - item_store_window_90_lag_7_mean
+      - item_store_window_90_lag_7_std
+      - item_store_window_180_lag_7_mean
+      - item_store_window_180_lag_7_std
+      - week_of_year
+      - month
+      - day_of_week
+      - day_of_month
+      - year
+  week_2:
+    forecast_horizon: [8,9,10,11,12,13,14]
+    feature_cols:
+      - item_store_window_7_lag_14_mean
+      - item_store_window_7_lag_14_std
+      - item_store_window_15_lag_14_mean
+      - item_store_window_15_lag_14_std
+      - item_store_window_30_lag_14_mean
+      - item_store_window_30_lag_14_std
+      - item_store_window_90_lag_14_mean
+      - item_store_window_90_lag_14_std
+      - item_store_window_180_lag_14_mean
+      - item_store_window_180_lag_14_std
+      - week_of_year
+      - month
+      - day_of_week
+      - day_of_month
+      - year
+  week_3:
+    forecast_horizon: [15,16,17,18,19,20,21]
+    feature_cols:
+      - item_store_window_7_lag_21_mean
+      - item_store_window_7_lag_21_std
+      - item_store_window_15_lag_21_mean
+      - item_store_window_15_lag_21_std
+      - item_store_window_30_lag_21_mean
+      - item_store_window_30_lag_21_std
+      - item_store_window_90_lag_21_mean
+      - item_store_window_90_lag_21_std
+      - item_store_window_180_lag_21_mean
+      - item_store_window_180_lag_21_std
+      - week_of_year
+      - month
+      - day_of_week
+      - day_of_month
+      - year
+  week_4:
+    forecast_horizon: [22,23,24,25,26,27,28]
+    feature_cols:
+      - item_store_window_7_lag_28_mean
+      - item_store_window_7_lag_28_std
+      - item_store_window_15_lag_28_mean
+      - item_store_window_15_lag_28_std
+      - item_store_window_30_lag_28_mean
+      - item_store_window_30_lag_28_std
+      - item_store_window_90_lag_28_mean
+      - item_store_window_90_lag_28_std
+      - item_store_window_180_lag_28_mean
+      - item_store_window_180_lag_28_std
+      - week_of_year
+      - month
+      - day_of_week
+      - day_of_month
+      - year
+
+output:
+  file: forecast
+  dir: cv

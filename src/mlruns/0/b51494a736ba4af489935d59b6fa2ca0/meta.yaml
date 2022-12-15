@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Caner/Documents/GitHub/Kaggle-M5-Forecasting-Walmart/src/mlruns/0/b51494a736ba4af489935d59b6fa2ca0/artifacts
+end_time: 1671118147468
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: b51494a736ba4af489935d59b6fa2ca0
+run_name: dazzling-whale-609
+run_uuid: b51494a736ba4af489935d59b6fa2ca0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1671103414730
+status: 3
+tags: []
+user_id: Caner

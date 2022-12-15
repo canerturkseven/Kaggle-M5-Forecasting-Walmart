@@ -1,0 +1,28 @@
+artifact_path: week_1
+flavors:
+  lightgbm:
+    code: null
+    data: model.pkl
+    lgb_version: 3.3.2
+    model_class: lightgbm.sklearn.LGBMRegressor
+  python_function:
+    data: model.pkl
+    env: conda.yaml
+    loader_module: mlflow.lightgbm
+    python_version: 3.7.10
+mlflow_version: 1.30.0
+model_uuid: 54ca3dd493e74133aa9d5726ba4a3b45
+run_id: b51494a736ba4af489935d59b6fa2ca0
+signature:
+  inputs: '[{"name": "item_store_window_7_lag_7_mean", "type": "double"}, {"name":
+    "item_store_window_7_lag_7_std", "type": "double"}, {"name": "item_store_window_15_lag_7_mean",
+    "type": "double"}, {"name": "item_store_window_15_lag_7_std", "type": "double"},
+    {"name": "item_store_window_30_lag_7_mean", "type": "double"}, {"name": "item_store_window_30_lag_7_std",
+    "type": "double"}, {"name": "item_store_window_90_lag_7_mean", "type": "double"},
+    {"name": "item_store_window_90_lag_7_std", "type": "double"}, {"name": "item_store_window_180_lag_7_mean",
+    "type": "double"}, {"name": "item_store_window_180_lag_7_std", "type": "double"},
+    {"name": "week_of_year", "type": "integer"}, {"name": "month", "type": "integer"},
+    {"name": "day_of_week", "type": "integer"}, {"name": "day_of_month", "type": "integer"},
+    {"name": "year", "type": "integer"}]'
+  outputs: null
+utc_time_created: '2022-12-15 11:25:25.671209'
